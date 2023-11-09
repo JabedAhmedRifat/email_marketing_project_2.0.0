@@ -303,10 +303,10 @@ def sendEmailToEmail(request, sender_id):
         subject = request.data.get('subject', "Default Subject")
         message = request.data.get('message', "Default Message")
 
-        recipient_email = request.data.get('recipient_email', '')
+        recipient = request.data.get('email')
 
-        if not recipient_email:
-            return Response({'error': 'Recipient email is required'}, status=status.HTTP_400_BAD_REQUEST)
+        if not recipient:
+            return Response({'error': 'Recipient email is required'})
 
         # List to store the email sending results
         email_results = []
@@ -317,8 +317,8 @@ def sendEmailToEmail(request, sender_id):
 
         # Send the email to the recipient's email address
         try:
-            recipient_list = [recipient_email]
-            email = EmailMessage(subject, message, from_email, recipient_list, connection=custom_email_backend)
+            r_email = [recipient]
+            email = EmailMessage(subject, message, from_email, r_email, connection=custom_email_backend)
 
             print("before")
             email.send()
@@ -326,21 +326,21 @@ def sendEmailToEmail(request, sender_id):
 
             #save history 
 
-            history = History(sender=sender.EMAIL_HOST_USER, receiver=recipient_email, subject=subject, message=message)
+            history = History(sender=sender.EMAIL_HOST_USER, receiver=r_email, subject=subject, message=message)
             history.save()
 
-            email_results.append({'recipient_email': recipient_email, 'status': 'Email sent'})
+            email_results.append({'email': r_email, 'status': 'Email sent'})
         except BadHeaderError:
-            email_results.append({'recipient_email': recipient_email, 'status': 'Invalid header found'})
+            email_results.append({'email': r_email, 'status': 'Invalid header found'})
         except Exception as e:
-            print(f"Error sending email to recipient {recipient_email}: {str(e)}")
-            email_results.append({'recipient_email': recipient_email, 'status': 'Error sending the email'})
+            print(f"Error sending email to recipient {r_email}: {str(e)}")
+            email_results.append({'email': r_email, 'status': 'Error sending the email'})
         finally:
                 custom_email_backend.close() 
 
-        return Response(email_results, status=status.HTTP_200_OK)
+        return Response(email_results)
     except Sender.DoesNotExist:
-        return Response({'error': 'Sender not found'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'error': 'Sender not found'})
 
 
 
@@ -395,7 +395,7 @@ def send_email_task(sender_id, subject, message, receiver_ids):
 @api_view(['POST'])
 def sendEmailToReceivers(request, sender_id):
     try:
-        sender = Sender.objects.get(id=sender_id)  # Assuming Sender is a model in yourapp
+        sender = Sender.objects.get(id=sender_id)
 
         subject = request.data.get('subject', "Default Subject")
         message = request.data.get('message', "Default Message")
@@ -403,10 +403,10 @@ def sendEmailToReceivers(request, sender_id):
 
         email_results = send_email_task.delay(sender_id, subject, message, receiver_ids)
 
-        return Response({'task_id': email_results.id}, status=status.HTTP_202_ACCEPTED)
+        return Response({'task_id': email_results.id})
 
     except Sender.DoesNotExist: 
-        return Response({'error': 'Sender not found'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'error': 'Sender not found'})
     
 
 

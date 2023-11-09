@@ -1,4 +1,4 @@
-from django.urls import path,include
+from django.urls import path
 from .views import *
 from .postviews import *
 
@@ -42,10 +42,10 @@ urlpatterns = [
 
     
     path('history-list/', allHistory),
-    path('allHistory-detail/<int:pk>/', detailHistory),
-    path('allHistory-create/', CreateHistory),
-    path('allHistory-update/<int:pk>/', UpdateHistory),
-    path('allHistory-delete/<int:pk>/', deleteHistory),
+    path('History-detail/<int:pk>/', detailHistory),
+    path('History-create/', CreateHistory),
+    path('History-update/<int:pk>/', UpdateHistory),
+    path('History-delete/<int:pk>/', deleteHistory),
     
     
     path('bulk/', createBulkReceiver),
