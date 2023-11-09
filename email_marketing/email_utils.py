@@ -7,6 +7,7 @@ class CustomEmailBackend(EmailBackend):
 
     def send_messages(self, email_messages):
         # Set email settings based on the sender
+        self.host = self.sender.EMAIL_BACKEND
         self.host = self.sender.EMAIL_HOST
         self.port = self.sender.EMAIL_PORT
         self.username = self.sender.EMAIL_HOST_USER

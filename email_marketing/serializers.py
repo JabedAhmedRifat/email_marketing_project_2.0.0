@@ -19,6 +19,15 @@ class ReceiverSerializer(serializers.ModelSerializer):
     class Meta:
         model = Receiver
         fields = "__all__"
+
+
+
+class ReceiverCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReceiverCategory
+        fields = "__all__"
+
+        
         
         
 class TemplateSerializer(serializers.ModelSerializer):

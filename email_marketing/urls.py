@@ -1,5 +1,6 @@
 from django.urls import path,include
 from .views import *
+from .postviews import *
 
 urlpatterns = [
     path('sender-list/', allSender),
@@ -30,6 +31,15 @@ urlpatterns = [
     path('templete-delete/<int:pk>/', deleteTemplate),
 
 
+
+    path('receiver-category-list/', allReceiverCategory),
+    path('receiver-category-detail/<int:pk>/', detailReceiverCategory),
+    path('receiver-category-create/', CreateReceiverCategory),
+    path('receiver-category-update/<int:pk>/', UpdateReceiverCategory),
+    path('receiver-category-delete/<int:pk>/', deleteReceiverCategory),
+
+
+
     
     path('history-list/', allHistory),
     path('allHistory-detail/<int:pk>/', detailHistory),
@@ -45,5 +55,5 @@ urlpatterns = [
 
     path('single-email/<int:sender_id>/', sendEmailToEmail),
     
-
+    path('search/', searchCategory.as_view()),
 ]

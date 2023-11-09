@@ -27,12 +27,15 @@ class Receiver(models.Model):
     phone = models.TextField(null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     email_sent = models.BooleanField(default=False)
+    categories = models.ManyToManyField(Category, through='ReceiverCategory', blank=True)
     
 
 class ReceiverCategory(models.Model):
     receiver = models.ForeignKey(Receiver, on_delete=models.CASCADE)
-    category = models.ManyToManyField(Category)    
-    
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ['receiver', 'category']
     
 
 
