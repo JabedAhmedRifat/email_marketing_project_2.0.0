@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, authentication_classes
+
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from knox.auth import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 
 
 from django_filters.rest_framework import DjangoFilterBackend
@@ -33,6 +36,7 @@ from celery import shared_task
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def CreateSender(request):
     data = request.data 
     serializer = SenderSerializer(data=data)
@@ -48,6 +52,7 @@ def CreateSender(request):
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def UpdateSender(request, pk):
     data = Sender.objects.get(id = pk)
     serializer = SenderSerializer(instance=data, data=request.data,partial=True)
@@ -68,6 +73,7 @@ def UpdateSender(request, pk):
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def CreateCategory(request):
     data = request.data 
     serializer = CategorySerializer(data=data)
@@ -83,6 +89,7 @@ def CreateCategory(request):
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def UpdateCategory(request, pk):
     data = Category.objects.get(id = pk)
     serializer = CategorySerializer(instance=data, data=request.data,partial=True)
@@ -100,6 +107,7 @@ def UpdateCategory(request, pk):
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def createBulkReceiver(request):
     if 'file' in request.FILES:
         csv_file = request.FILES['file']
@@ -146,6 +154,7 @@ def createBulkReceiver(request):
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def CreateReceiver(request):
     data = request.data 
     serializer = ReceiverSerializer(data=data)
@@ -161,6 +170,7 @@ def CreateReceiver(request):
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def UpdateReceiver(request, pk):
     data = Receiver.objects.get(id = pk)
     serializer = ReceiverSerializer(instance=data, data=request.data,partial=True)
@@ -184,6 +194,7 @@ def UpdateReceiver(request, pk):
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def CreateReceiverCategory(request):
     data = request.data 
     serializer = ReceiverCategorySerializer(data=data)
@@ -201,6 +212,7 @@ def CreateReceiverCategory(request):
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def UpdateReceiverCategory(request, pk):
     data = ReceiverCategory.objects.get(id = pk)
     serializer = ReceiverCategorySerializer(instance=data, data=request.data,partial=True)
@@ -220,6 +232,7 @@ def UpdateReceiverCategory(request, pk):
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def CreateTemplate(request):
     data = request.data 
     serializer = TemplateSerializer(data=data)
@@ -238,6 +251,7 @@ def CreateTemplate(request):
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def UpdateTemplate(request, pk):
     data = Template.objects.get(id = pk)
     serializer = TemplateSerializer(instance=data, data=request.data,partial=True)
@@ -253,6 +267,7 @@ def UpdateTemplate(request, pk):
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def CreateHistory(request):
     data = request.data 
     serializer = HistorySerializer(data=data)
@@ -272,6 +287,7 @@ def CreateHistory(request):
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def UpdateHistory(request, pk):
     data = History.objects.get(id = pk)
     serializer = HistorySerializer(instance=data, data=request.data,partial=True)
@@ -296,6 +312,8 @@ def UpdateHistory(request, pk):
 
 
 @api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def sendEmailToEmail(request, sender_id):
     try:
         sender = Sender.objects.get(id=sender_id)

@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, authentication_classes
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from knox.auth import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 
 from django_filters.rest_framework import DjangoFilterBackend
@@ -36,6 +37,7 @@ from celery import shared_task
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def allSender(request):
     data = Sender.objects.all().order_by('-id')
     serializer = SenderSerializer(data, many=True)
@@ -48,6 +50,7 @@ def allSender(request):
     
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def detailSender(request, pk ):
     data = Sender.objects.get(id=pk)
     serializer = SenderSerializer(data)
@@ -65,6 +68,7 @@ def detailSender(request, pk ):
 
 @api_view(['DELETE'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def deleteSender(request, pk):
     data = Sender.objects.get(id=pk)
     data.delete()
@@ -81,6 +85,7 @@ def deleteSender(request, pk):
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def allCategory(request):
     data = Category.objects.all().order_by('-id')
     serializer = CategorySerializer(data, many=True)
@@ -93,6 +98,7 @@ def allCategory(request):
     
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def detailCategory(request, pk ):
     data = Category.objects.get(id=pk)
     serializer = CategorySerializer(data)
@@ -111,6 +117,7 @@ def detailCategory(request, pk ):
 
 @api_view(['DELETE'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def deleteCategory(request, pk):
     data = Category.objects.get(id=pk)
     data.delete()
@@ -135,6 +142,7 @@ def deleteCategory(request, pk):
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def allReceiver(request):
     data = Receiver.objects.all().order_by('-id')
     serializer = ReceiverSerializer(data, many=True)
@@ -147,6 +155,7 @@ def allReceiver(request):
     
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def detailReceiver(request, pk ):
     data = Receiver.objects.get(id=pk)
     serializer = ReceiverSerializer(data)
@@ -165,6 +174,7 @@ def detailReceiver(request, pk ):
 
 @api_view(['DELETE'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def deleteReceiver(request, pk):
     data = Receiver.objects.get(id=pk)
     data.delete()
@@ -182,6 +192,7 @@ def deleteReceiver(request, pk):
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def allReceiverCategory(request):
     data = ReceiverCategory.objects.all().order_by('-id')
     serializer = ReceiverCategorySerializer(data, many=True)
@@ -194,6 +205,7 @@ def allReceiverCategory(request):
     
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def detailReceiverCategory(request, pk ):
     data = ReceiverCategory.objects.get(id=pk)
     serializer = ReceiverCategorySerializer(data)
@@ -212,6 +224,7 @@ def detailReceiverCategory(request, pk ):
 
 @api_view(['DELETE'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def deleteReceiverCategory(request, pk):
     data = ReceiverCategory.objects.get(id=pk)
     data.delete()
@@ -225,40 +238,12 @@ def deleteReceiverCategory(request, pk):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #--------------------Template CRUD----------------------------
 
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def allTemplate(request):
     data = Template.objects.all().order_by('-id')
     serializer = TemplateSerializer(data, many=True)
@@ -271,6 +256,7 @@ def allTemplate(request):
     
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def detailTemplate(request, pk ):
     data = Template.objects.get(id=pk)
     serializer = TemplateSerializer(data)
@@ -286,6 +272,7 @@ def detailTemplate(request, pk ):
 
 @api_view(['DELETE'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def deleteTemplate(request, pk):
     data = Template.objects.get(id=pk)
     data.delete()
@@ -301,6 +288,7 @@ def deleteTemplate(request, pk):
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def allHistory(request):
     data = History.objects.all().order_by('-id')
     serializer = HistorySerializer(data, many=True)
@@ -313,6 +301,7 @@ def allHistory(request):
     
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def detailHistory(request, pk ):
     data = History.objects.get(id=pk)
     serializer = HistorySerializer(data)
@@ -329,6 +318,7 @@ def detailHistory(request, pk ):
 
 @api_view(['DELETE'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def deleteHistory(request, pk):
     data = History.objects.get(id=pk)
     data.delete()
