@@ -43,6 +43,8 @@ class UserAPI(generics.RetrieveAPIView):
         return self.request.user
     
 
+    
+
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def changePasswordView(request):
